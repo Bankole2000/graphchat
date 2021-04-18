@@ -15,6 +15,7 @@ const typeDefs = `
 
   type Mutation {
     postMessage(user: String!, content: String!): ID!
+    deleteMessages: [Message!]
   }
 
   type Subscription {
@@ -36,6 +37,10 @@ const resolvers = {
       messages.push({ id, content, user });
       subscribers.forEach((fn) => fn());
       return id;
+    },
+    deleteMessages: () => {
+      messages.splice(0, messages.length);
+      subscribers.forEach((fn) => fn());
     },
   },
   Subscription: {
